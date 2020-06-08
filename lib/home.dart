@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ml_text_recognition/Animation/FadeAnimation.dart';
 import 'package:ml_text_recognition/ml.dart';
+import 'package:tflite/tflite.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -11,6 +12,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _homePageState extends State<HomePage> {
+  Future<String> loadModel() async {
+    String res = await Tflite.loadModel(
+      model: "assets/models/tf_lite_model.tflite",
+      labels: "assets/models/label.txt",
+    );
+    return res;
+  }
+
   Future pickImage(context, source) async {
     var tempFile = await ImagePicker.pickImage(
       source: source,
@@ -20,6 +29,12 @@ class _homePageState extends State<HomePage> {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => MLPage(tempFile)));
     }
+  }
+
+  @override
+  void initState() {
+    loadModel();
+    super.initState();
   }
 
   @override
@@ -114,7 +129,6 @@ class _homePageState extends State<HomePage> {
                                       blurRadius: 20.0,
                                       offset: Offset(0, 10))
                                 ]),
-                            
                           )),
                       SizedBox(
                         height: 30,
@@ -136,7 +150,6 @@ class _homePageState extends State<HomePage> {
                                   onPressed: () {
                                     pickImage(context, ImageSource.gallery);
                                   },
-                                  
                                   icon: Icon(
                                     Icons.photo_library,
                                     color: Colors.white,
