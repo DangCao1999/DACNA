@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ml_text_recognition/Animation/FadeAnimation.dart';
@@ -12,13 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _homePageState extends State<HomePage> {
-  Future<String> loadModel() async {
-    String res = await Tflite.loadModel(
-      model: "assets/models/tf_lite_model.tflite",
-      labels: "assets/models/label.txt",
-    );
-    return res;
-  }
+  var dio = Dio();
 
   Future pickImage(context, source) async {
     var tempFile = await ImagePicker.pickImage(
@@ -26,14 +23,23 @@ class _homePageState extends State<HomePage> {
     );
 
     if (tempFile != null) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => MLPage(tempFile)));
+      FormData formdata = FormData.fromMap({
+        'image': await MultipartFile.fromFile(tempFile.path),
+      });
+      print(tempFile.path);
+
+       Response response = await this
+           .dio
+           .post("http://192.168.0.102:5000/upload-image", data: formdata);
+       var file = response.data;
+       log(file);
+         Navigator.push(
+             context, MaterialPageRoute(builder: (context) => MLPage(tempFile, file)));
     }
   }
 
   @override
   void initState() {
-    loadModel();
     super.initState();
   }
 
