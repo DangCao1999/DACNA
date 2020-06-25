@@ -30,11 +30,11 @@ class _homePageState extends State<HomePage> {
 
        Response response = await this
            .dio
-           .post("http://192.168.0.102:5000/upload-image", data: formdata);
-       var file = response.data;
+           .post("http://35.240.185.151:5000/upload-image", data: formdata);
+       var file = response.data.toString();
        log(file);
-         Navigator.push(
-             context, MaterialPageRoute(builder: (context) => MLPage(tempFile, file)));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MLPage(tempFile, file)));
     }
   }
 

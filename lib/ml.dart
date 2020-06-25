@@ -1,6 +1,6 @@
 
 import 'dart:io';
-
+import 'package:photo_view/photo_view.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -84,8 +84,14 @@ class _MLPageState extends State<MLPage> {
 
   @override
   Widget build(BuildContext context) {
+    String name = this.widget.url.split("/")[1];
+    String api = "http://35.240.185.151:5000/image/" + name;
+    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Image.network("http://192.168.0.102:5000/image/images14result.jpg"),
+      body: Container(
+        
+        child: PhotoView(imageProvider: NetworkImage(api) ) ),
     );
   }
 }
