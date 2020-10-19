@@ -85,7 +85,7 @@ class _MLPageState extends State<MLPage> {
   @override
   Widget build(BuildContext context) {
     String name = this.widget.url.split("/")[1];
-    String api = "http://35.240.185.151:5000/image/" + name;
+    String api = "http://34.80.236.168/image/" + name;
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
     return Scaffold(

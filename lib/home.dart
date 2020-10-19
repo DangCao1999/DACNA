@@ -30,7 +30,7 @@ class _homePageState extends State<HomePage> {
 
        Response response = await this
            .dio
-           .post("http://35.240.185.151:5000/upload-image", data: formdata);
+           .post("http://34.80.236.168/upload-image", data: formdata);
        var file = response.data.toString();
        log(file);
           Navigator.push(
